@@ -1,14 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{C5911799-6F6D-4CDA-B2AB-EEFD9D54A473}"
 	ProjectSection(SolutionItems) = preProject
 		app-info.json = app-info.json
 		Directory.Build.props = Directory.Build.props
 		NuGet.Config = NuGet.Config
+		PopulateStorage.sh = PopulateStorage.sh
 		readme.md = readme.md
+		StorageInitialization.sql = StorageInitialization.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{65507135-64DE-4BD5-AB2D-A0CC5455FD97}"
