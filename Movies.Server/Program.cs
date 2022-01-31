@@ -11,6 +11,9 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Movies.Grains;
+using Movies.Server.Silo;
+using Movies.Contracts;
+using Movies.GrainClients;
 
 namespace Movies.Server
 {
@@ -39,6 +42,7 @@ namespace Movies.Server
 						options.Port = GetAvailablePort(6600, 6699);
 					});
 
+					services.AddTransient<IMovieClient, MovieClient>();
 					services.Configure<ConsoleLifetimeOptions>(options =>
 					{
 						options.SuppressStatusMessages = true;
@@ -97,8 +101,9 @@ namespace Movies.Server
 						.ConfigureApplicationParts(parts => parts
 							.AddApplicationPart(typeof(MovieGrain).Assembly).WithReferences()
 						)
-						.AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
+						.AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()						
 						.ConfigureLogging(lg => lg.AddSerilog())
+						.AddStartupTask<InitialLaunchTask>()    //	initial preloading of all grains
 					;
 
 				})
