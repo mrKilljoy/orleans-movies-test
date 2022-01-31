@@ -4,7 +4,6 @@ using Movies.Server.Infrastructure;
 using Movies.Server.Models;
 using Orleans.Providers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +21,12 @@ namespace Movies.Server.Controllers
 			_movieClient = movieClient;
 		}
 
+		/// <summary>
+		/// Return a movie record from the storage.
+		/// </summary>
+		/// <param name="id">Movie ID.</param>
+		/// <returns>Information about the movie.</returns>
+		/// <response code="200">Request completed sucessfully.</response>
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(long id)
 		{
@@ -29,6 +34,11 @@ namespace Movies.Server.Controllers
 			return grain is null ? NotFound() : Json(grain);
 		}
 
+		/// <summary>
+		/// Return a set containing all movies in the storage.
+		/// </summary>
+		/// <returns>A set of all movies.</returns>
+		/// <response code="200">Request completed sucessfully.</response>
 		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
@@ -37,9 +47,20 @@ namespace Movies.Server.Controllers
 			return Ok(results);
 		}
 
+		/// <summary>
+		/// Search movies by their name.
+		/// </summary>
+		/// <returns>A set of movies matching the search query.</returns>
+		/// <response code="200">Request completed sucessfully.</response>
 		[HttpGet("search")]
+		[ProducesResponseType(typeof(MovieModel), 200)]
 		public async Task<IActionResult> GetByName([FromQuery]FilterOptions options)
 		{
+			if (string.IsNullOrEmpty(options.Name))
+			{
+				return Ok(Array.Empty<MovieModel>());
+			}
+
 			var originalSet = await _movieClient.GetAll();
 			var querySet = originalSet.AsQueryable();
 
@@ -67,6 +88,11 @@ namespace Movies.Server.Controllers
 			return Ok(querySet.ToList());
 		}
 
+		/// <summary>
+		/// Search movies by their genre
+		/// </summary>
+		/// <returns>A set of movies matching selected genre.</returns>
+		/// <response code="200">Request completed sucessfully.</response>
 		[HttpGet("genre")]
 		public async Task<IActionResult> GetByGenre([FromQuery] FilterOptions options)
 		{
@@ -102,6 +128,12 @@ namespace Movies.Server.Controllers
 			return Ok(querySet.ToList());
 		}
 
+		/// <summary>
+		/// Return top N movies from the storage.
+		/// </summary>
+		/// <param name="limit">Number of movies to retrieve.</param>
+		/// <returns>A set of top N movies.</returns>
+		/// <response code="200">Request completed sucessfully.</response>
 		[HttpGet("top")]
 		public async Task<IActionResult> GetTopRated([FromQuery]int limit = 5)
 		{
@@ -115,6 +147,10 @@ namespace Movies.Server.Controllers
 			return Ok(originalSet.OrderByDescending(m => m.Rate).Take(limit).ToList());
 		}
 
+		/// <summary>
+		/// Create or update a movie in the storage.
+		/// </summary>
+		/// <response code="200">Request completed sucessfully.</response>
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] MovieModel movie)
 		{
@@ -122,6 +158,10 @@ namespace Movies.Server.Controllers
 			return Ok();
 		}
 
+		/// <summary>
+		/// Import a set of movies into the storage.
+		/// </summary>
+		/// <response code="200">Request completed sucessfully.</response>
 		[HttpPost("batch")]
 		public async Task<IActionResult> Batch([FromBody] MovieModelSet data)
 		{
@@ -133,6 +173,12 @@ namespace Movies.Server.Controllers
 			return Ok();
 		}
 
+		/// <summary>
+		/// Delete information about a movie.
+		/// </summary>
+		/// <param name="id">Movie ID.</param>
+		/// <response code="200">Request completed sucessfully.</response>
+		/// <response code="500">Request failed (no record was present in the storage / other).</response>
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(long id)
 		{

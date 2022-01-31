@@ -13,6 +13,7 @@ namespace Movies.Server.Gql
 {
 	[Route("api/graphql")]
 	[Route("graphql")]
+	[ApiExplorerSettings(IgnoreApi = true)]
 	public class GqlController : Controller
 	{
 		private readonly IDocumentExecuter _documentExecuter;

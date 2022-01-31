@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Movies.Core;
 using Movies.GrainClients;
 using Movies.Server.Gql.App;
 using Movies.Server.Infrastructure;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Movies.Server
 {
@@ -41,6 +45,20 @@ namespace Movies.Server
 			services.AddAppGraphQL();
 			services.AddControllers()
 				.AddNewtonsoftJson();
+
+			//	available at <default URL>/swagger
+			services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("v1", new OpenApiInfo
+				{
+					Title = "Orleans Movies API, v.1",
+					Version = "v1",
+					Description = "Test API description"
+				});
+
+				var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+				options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +74,8 @@ namespace Movies.Server
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseGraphiQl();
+				app.UseSwagger();
+				app.UseSwaggerUI();
 			}
 
 			app.UseRouting();
