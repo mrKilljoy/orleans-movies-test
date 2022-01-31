@@ -23,6 +23,7 @@ namespace Movies.Grains
 				{
 					Value = new MovieIndexModel()
 				};
+
 				await WriteStateAsync();
 			}
 		}

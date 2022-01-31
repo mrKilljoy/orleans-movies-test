@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Movies.Contracts
@@ -8,7 +7,6 @@ namespace Movies.Contracts
 	{
 		Task<MovieModel> Get(long movieId);
 
-		//	?
 		Task<List<MovieModel>> GetAll();
 
 		Task Set(MovieModel movie);

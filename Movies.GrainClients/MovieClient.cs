@@ -61,7 +61,6 @@ namespace Movies.GrainClients
 			var movieGrain = _grainFactory.GetGrain<IMovieGrain>(movie.Id);
 			var indexGrain = _grainFactory.GetGrain<IMovieIndexGrain>(Constants.MovieIndexGrainId);
 
-			//	?
 			var indexInst = await indexGrain.Get();
 			await movieGrain.Set(movie);
 

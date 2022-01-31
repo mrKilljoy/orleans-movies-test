@@ -10,9 +10,5 @@ namespace Movies.Contracts
 		Task Set(MovieModel movie);
 
 		Task Drop();
-
-		Task AddGenre(string genre);
-
-		Task RemoveGenre(string genre);
 	}
 }
