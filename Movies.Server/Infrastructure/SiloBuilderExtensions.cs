@@ -45,7 +45,9 @@ namespace Movies.Server.Infrastructure
 	{
 		private static StorageProviderType _defaultProviderType;
 
-		public static ISiloBuilder UseAppConfiguration(this ISiloBuilder siloHost, AppSiloBuilderContext context)
+		public static ISiloBuilder UseInMemoryPersistenceConfiguration(
+			this ISiloBuilder siloHost,
+			AppSiloBuilderContext context)
 		{
 			_defaultProviderType = context.SiloOptions.StorageProviderType ?? StorageProviderType.Memory;
 
@@ -64,7 +66,7 @@ namespace Movies.Server.Infrastructure
 			return siloHost;
 		}
 
-		public static ISiloBuilder UseAdoNetPersistenceProvider(this ISiloBuilder siloHost, AppSiloBuilderContext context, AdoNetPersistenceProviderOptions grainOptions)
+		public static ISiloBuilder UseAdoNetPersistenceConfiguration(this ISiloBuilder siloHost, AppSiloBuilderContext context, AdoNetPersistenceProviderOptions grainOptions)
 		{
 			var appInfo = context.AppInfo;
 

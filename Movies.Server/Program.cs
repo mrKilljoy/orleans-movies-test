@@ -82,7 +82,7 @@ namespace Movies.Server
 				.UseOrleans((ctx, builder) =>
 				{
 					builder
-						.UseAdoNetPersistenceProvider(new AppSiloBuilderContext
+						.UseAdoNetPersistenceConfiguration(new AppSiloBuilderContext
 						{
 							AppInfo = appInfo,
 							HostBuilderContext = ctx,
@@ -94,7 +94,7 @@ namespace Movies.Server
 						}, new AdoNetPersistenceProviderOptions
 						{
 							Invariant = "System.Data.SqlClient",
-							ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TestOrleans;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;",
+							ConnectionString = "*",
 							UseJson = true
 						})
 
