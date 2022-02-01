@@ -81,6 +81,8 @@ namespace Movies.Server
 				})
 				.UseOrleans((ctx, builder) =>
 				{
+					//	possible to use .UseInMemoryPersistenceConfiguration instead
+					//	if grain persistence is not required
 					builder
 						.UseAdoNetPersistenceConfiguration(new AppSiloBuilderContext
 						{
@@ -103,7 +105,10 @@ namespace Movies.Server
 						)
 						.AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()						
 						.ConfigureLogging(lg => lg.AddSerilog())
-						.AddStartupTask<InitialLaunchTask>()    //	initial preloading of all grains
+
+						//	initial preloading of all grains
+						//	(does not make sense with InMemory persistence model)
+						.AddStartupTask<InitialLaunchTask>()    
 					;
 
 				})
