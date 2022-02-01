@@ -96,7 +96,7 @@ namespace Movies.Server
 						}, new AdoNetPersistenceProviderOptions
 						{
 							Invariant = "System.Data.SqlClient",
-							ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TestOrleans;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;",
+							ConnectionString = "*",
 							UseJson = true
 						})
 
