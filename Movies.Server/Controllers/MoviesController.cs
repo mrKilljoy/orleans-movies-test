@@ -5,6 +5,7 @@ using Movies.Server.Models;
 using Orleans.Providers;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Movies.Server.Controllers
@@ -31,7 +32,7 @@ namespace Movies.Server.Controllers
 		public async Task<IActionResult> Get(long id)
 		{
 			var grain = await _movieClient.Get(id);
-			return grain is null ? NotFound() : Json(grain);
+			return grain is null ? NotFound() : Ok(grain);
 		}
 
 		/// <summary>
@@ -185,7 +186,7 @@ namespace Movies.Server.Controllers
 			var result = await _movieClient.Delete(id);
 			return result ?
 				Ok() :
-				StatusCode((int)System.Net.HttpStatusCode.InternalServerError);
+				StatusCode((int)HttpStatusCode.InternalServerError);
 		}
 	}
 }
