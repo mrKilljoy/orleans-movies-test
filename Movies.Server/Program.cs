@@ -81,10 +81,10 @@ namespace Movies.Server
 				})
 				.UseOrleans((ctx, builder) =>
 				{
-					//	possible to use .UseInMemoryPersistenceConfiguration instead
-					//	if grain persistence is not required
+					//	possible to use .AdoNetPersistenceConfiguration instead
+					//	if grain persistence is required
 					builder
-						.UseAdoNetPersistenceConfiguration(new AppSiloBuilderContext
+						.UseInMemoryPersistenceConfiguration(new AppSiloBuilderContext
 						{
 							AppInfo = appInfo,
 							HostBuilderContext = ctx,
@@ -93,11 +93,6 @@ namespace Movies.Server
 								SiloPort = GetAvailablePort(11111, 12000),
 								GatewayPort = 30001
 							}
-						}, new AdoNetPersistenceProviderOptions
-						{
-							Invariant = "System.Data.SqlClient",
-							ConnectionString = "*",
-							UseJson = true
 						})
 
 						.ConfigureApplicationParts(parts => parts
